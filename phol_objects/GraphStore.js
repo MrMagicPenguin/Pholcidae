@@ -1,7 +1,8 @@
 import fs from "fs";
-import {dirIsEmpty, isDir, makeDirectory} from "../FileManager.js";
+import {dirIsEmpty, isDir, makeDirectory} from "../management_funcs/FileManager.js";
 import path from "path";
 import assert from "assert";
+import {addFolderToStore} from "../management_funcs/GraphStoreManager.js";
 
 //  Thanks to Thibault Polge of wyag.thb.lt. Much is heavily lifted from his Python tutorial
 
@@ -13,39 +14,11 @@ class GraphStore {
         this.worktree = dir // Graph root
         this.pholDir = path.join(dir, '.pholdir')
 
-        if (force === false || !isDir(this.pholDir)) {
+        if (force === false && !isDir(this.pholDir)) {
         // verify dir exists, and if a subdir 'pholdir' already exists
             throw `Not a Pholcidae directory: ${dir}` //? feels ungraceful
         }
 
-    }
-    joinPathToStoreRoot(fn){
-        return path.join(this.pholDir, fn)
-    }
-    addFileToStore(mkdir = false, fn){
-        // Returns formatted path to parent directory of file
-        if (this.addFolderToStore(mkdir, fn)){
-            return this.joinPathToStoreRoot(fn)
-        }
-    }
-    addFolderToStore(mkdir = false, fn){
-        // Same as addFileToStore, but can make the directory
-        const newPath = this.joinPathToStoreRoot(fn)
-
-        if (fs.existsSync(newPath)) {
-            if (isDir(newPath)) {
-                return newPath
-            }
-            else{
-                throw `Not a directory ${newPath}`
-            }
-        }
-        if (mkdir){
-            makeDirectory(newPath)
-            return newPath
-        }
-        else
-            return false
     }
 }
 
@@ -65,10 +38,10 @@ export function createGraphStore(fp, force){
     }
 
     // Initialize folder structure, subject to change:
-    assert(store.addFolderToStore(true, "branches"))
-    assert(store.addFolderToStore(true, "objects"))
-    assert(store.addFolderToStore(true, "refs/tags"))
-    assert(store.addFolderToStore(true, "refs/heads"))
+    assert(addFolderToStore(store, true, "branches"))
+    assert(addFolderToStore(store, true, "objects"))
+    assert(addFolderToStore(store, true, "refs/tags"))
+    assert(addFolderToStore(store, true, "refs/heads"))
 
 
     return store
