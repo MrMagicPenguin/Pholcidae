@@ -15,8 +15,4 @@ class PholObject {
     deserialize(data){
         throw "Unimplemented!"
     }
-
-    readObject(sha){
-
-    }
 }
