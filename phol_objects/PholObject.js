@@ -1,6 +1,6 @@
 import zlib from 'zlib'
 
-class PholObject {
+export class PholObject {
     constructor(repo, data=null) {
         this.repo = repo
 
