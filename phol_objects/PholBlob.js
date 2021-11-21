@@ -1,7 +1,6 @@
 import {PholObject} from "./PholObject.js";
-class PholBlob extends PholObject{
+export class PholBlob extends PholObject{
     format = Buffer.from('blob')
-
     serialize() {
         return this.blobdata
     }

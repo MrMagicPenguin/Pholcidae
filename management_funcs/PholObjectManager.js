@@ -1,53 +1,56 @@
 import fs from 'fs'
-import zlib from "zlib";
-import {joinPathToStoreRoot} from "./GraphStoreManager.js";
-import * as buffer from "buffer";
+import {addFileToStore} from "./GraphStoreManager.js";
+import crypto from 'crypto'
+import {PholBlob} from "../phol_objects/PholBlob.js";
 
-export function readObject(obj){
-    const readStream = fs.createReadStream(obj, {encoding: "utf8"});
-    //const fp = joinPathToStoreRoot(obj, "objects"), sha.slice(0,2), sha.slice(2,0))
 
-    readStream.on('data', (data)=>{
-        // deconstruct header
-        const formatEnd = data.toString().search('\x20')
-        const format = data.slice(0,formatEnd)
+export function readObject(store, sha){
+    const fp = addFileToStore(store, false, "objects", sha.slice(0,2), sha.slice(2))
+
+    fs.readFile(fp, (err, res)=>{
+        if (err)
+            throw err
+        res = res.toString()
+        const formatEnd = res.toString().search('\x20')
+        const format = res.slice(0, formatEnd)
+
 
         // validate obj size
-        const messageStart = data.search('\x00')
-        const msgSize = data.slice(messageStart).length
+        const messageStart = res.search('\x00')
+        const msgSize = res.slice(messageStart).length
 
-        if (msgSize !== data.length-messageStart){
+        if (msgSize !== res.length-messageStart){
             throw `Malformed object, inconsistent length`
         }
-
         // get proper constructor, return it somehow..
         switch (format){
             case "b":
                 console.log("Object format is blob")
-                break
+                return new PholBlob(store, res.slice(messageStart))
             case "t":
                 console.log("object format is Tree")
                 break
             default:
                 throw `No matching format found: ${format}`
         }
-        // call constructor, return object
     })
 }
-
-export function writeObject(fp){
-    const writeStream = fs.createWriteStream(fp, {encoding:"utf8"})
-
-    const data = "Hello, great world!"
-
+export function writeObject(store, data){
     const header = Buffer.from('b') + Buffer.from('\x20') + Buffer.byteLength(data) + Buffer.from('\x00')
     const outBuffer = header + Buffer.from(data)
 
-    // Do hashing
-    // ...
+    // shasum contents for file id
+    const shasum = crypto.createHash('sha1')
+        .update(outBuffer)
+        .digest('hex')
 
-    writeStream.write(outBuffer)
+    const fp = addFileToStore(store, true, "objects", shasum.slice(0,2), shasum.slice(2))
 
+    fs.writeFile(fp, outBuffer, (err)=>{
+        if (err)
+            throw err
+    })
+    return shasum
 
 }
 

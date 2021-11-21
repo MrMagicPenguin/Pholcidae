@@ -40,8 +40,8 @@ export function createGraphStore(fp, force){
     // Initialize folder structure, subject to change:
     assert(addFolderToStore(store, true, "branches"))
     assert(addFolderToStore(store, true, "objects"))
-    assert(addFolderToStore(store, true, "refs/tags"))
-    assert(addFolderToStore(store, true, "refs/heads"))
+    assert(addFolderToStore(store, true, "refs","tags"))
+    assert(addFolderToStore(store, true, "refs","heads"))
 
 
     return store
