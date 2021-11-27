@@ -1,9 +1,10 @@
-import zlib from 'zlib'
+import { GraphStore } from "../types/phol_objects/GraphStore";
 
 export class PholObject {
-    constructor(repo, data=null) {
-        this.repo = repo
+    public repo: GraphStore;
 
+    constructor(repo: GraphStore, data: string) {
+        this.repo = repo
         if (data !== null){
             this.deserialize(data)
         }
@@ -12,7 +13,7 @@ export class PholObject {
         // interface
         throw "Unimplemented!"
     }
-    deserialize(data){
+    deserialize(data: string){
         throw "Unimplemented!"
     }
 }
