@@ -1,5 +1,5 @@
-import { PholObject } from "./PholObject";
+import { PholObject } from './PholObject';
 
-interface PholBlob extends PholObject{
-  format: Buffer
+export interface PholBlob extends PholObject {
+  format: Buffer;
 }

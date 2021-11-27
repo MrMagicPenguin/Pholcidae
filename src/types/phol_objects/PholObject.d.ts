@@ -1,8 +1,10 @@
-import { PathLike } from "fs";
+import { PathLike } from 'fs';
 
-interface PholObject {
-  repo: PathLike
-  data: string
-  serialize(): string
-  deserialize(): string
+export interface PholObject {
+  repo: PathLike;
+  data: string;
+
+  serialize(): string;
+
+  deserialize(): string;
 }

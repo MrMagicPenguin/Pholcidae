@@ -1,6 +1,4 @@
-import { PathLike } from "fs";
-
-type GraphStore = {
-  worktree: string
-  pholDir: string
-}
+export type GraphStore = {
+  worktree: string;
+  pholDir: string;
+};
