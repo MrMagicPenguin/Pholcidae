@@ -1,14 +1,49 @@
 [
   {
     "username": "User1",
-    "password": "Password1"
+    "password": "Password1",
+    "folders": [
+      {
+        "name": "User1 Folder A",
+        "path": "User1/Path/To/Folder/A"
+      },
+      {
+        "name": "User 1 Folder B",
+        "path": "Path/To/Folder/B"
+      }
+    ]
   },
   {
     "username": "User2",
-    "password": "Password2"
+    "password": "Password2",
+    "folders": [
+      {
+        "name": "User2 Folder A",
+        "path": "User2/Path/To/Folder/A"
+      },
+      {
+        "name": "User2 Folder B",
+        "path": "User2/Path/To/Folder/B"
+      }
+    ]
   },
   {
     "username": "User3",
-    "password": "Password3"
+    "password": "Password3",
+    "folders": [
+      {
+        "name": "User3 Folder A",
+        "path": "User3/Path/To/Folder/A",
+        "files": [
+          "File 1",
+          "File 2",
+          "File 3"
+        ]
+      },
+      {
+        "name": "User3 Folder B",
+        "path": "User3/Path/To/Folder/B"
+      }
+    ]
   }
 ]

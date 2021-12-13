@@ -4,7 +4,7 @@ export default function Register({ addUser }) {
     const handleSubmit = (e) => {
         e.preventDefault();
         addUser(userData);
-        setUserData({ username: "", password: "" });
+        setUserData({ username: "", password: "", folders: [] });
     };
     const handleChange = (e) => {
         const name = e.target.name;
@@ -13,7 +13,8 @@ export default function Register({ addUser }) {
     };
     const [userData, setUserData] = useState({
         username: "",
-        password: ""
+        password: "",
+        folders: []
     });
 
 
